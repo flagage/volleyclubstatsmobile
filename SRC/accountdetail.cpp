@@ -60,7 +60,7 @@ void AccountDetail::Init()
 void AccountDetail::Connect()
 {
     connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(slotok()),Qt::QueuedConnection);
-    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(close()));
+    connect(ui->pushButton_2,SIGNAL(clicked()),this,SLOT(close()));
 }
 
 void AccountDetail::slotok()

@@ -44,7 +44,7 @@ public slots:
  void SlotTraitementSpin(QString);
  void SlotEnvoi();
  void SlotRaz();
-
+ void SlotFaute();
 private:
     Ui::MainWindow *ui;
     StatBoutton*  _tabSbutton[100];
@@ -54,6 +54,7 @@ private:
     QMap<int,StatValeur*> _statmap;
     int _nbButton;
     int _nbSpinBox;
+    int _nbFaute;
 };
 
 #endif // MAINWINDOW_H

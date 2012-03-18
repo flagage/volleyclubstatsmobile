@@ -84,10 +84,11 @@ void MainWindow::AjustSize()
 
 void MainWindow::Init()
 {
-  _listValeur<<"++"<<"+"<<"0"<<"-"<<"--";
-  _listAction<<"Service"<<"Reception"<<"Attaque"<<"Defence";
+  _listValeur<<"++"<<"0"<<"--";
+  _listAction<<"Service"<<"Attaque"<<"Defence"<<"Reception";
     _nbButton=0;
     _nbSpinBox=0;
+    _nbFaute=0;
     for(int i=0;i<5;i++)
     {
         this->_statmap[i]=new StatValeur();
@@ -99,30 +100,39 @@ void MainWindow::Init()
 
 void MainWindow::Creationbutton()
 {
-    for(int i=0;i<5;i++)
+    for(int i=0;i<3;i++)
     {
         this->_tabSbutton[i]=new StatBoutton(_listValeur[i],0,this);
+        _tabSbutton[i]->setStyleSheet("QPushButton {color : #000000; background : pink;  padding: 6px; border-radius: 10px;} QPushButton:pressed {background-color: rgb(0, 0, 224); border-style: inset;}");
+
+       // QPalette lPalette = _tabSbutton[i]->palette();
+        //lPalette.setColor(QPalette::Window, Qt::red);
+        //_tabSbutton[i]->setPalette(lPalette);
+
         ui->gridLayout_2->addWidget(_tabSbutton[i], 2, i, 1, 1);
         _nbButton++;
     }
 
-    for(int i=0;i<5;i++)
+    for(int i=0;i<3;i++)
     {
-        this->_tabSbutton[i+5]=new StatBoutton(_listValeur[i],1,this);
-        ui->gridLayout_3->addWidget(_tabSbutton[i+5], 2, i, 1, 1);
+        this->_tabSbutton[i+3]=new StatBoutton(_listValeur[i],1,this);
+        _tabSbutton[i+3]->setStyleSheet("QPushButton {color : #000000; background : cyan;  padding: 6px; border-radius: 10px;} QPushButton:pressed {background-color: rgb(0, 0, 224); border-style: inset;}");
+        ui->gridLayout_3->addWidget(_tabSbutton[i+3], 2, i, 1, 1);
         _nbButton++;
     }
 
-    for(int i=0;i<5;i++)
+    for(int i=0;i<3;i++)
     {
-        this->_tabSbutton[i+10]=new StatBoutton(_listValeur[i],2,this);
-        ui->gridLayout_4->addWidget(_tabSbutton[i+10], 1, i, 1, 1);
+        this->_tabSbutton[i+6]=new StatBoutton(_listValeur[i],2,this);
+        _tabSbutton[i+6]->setStyleSheet("QPushButton {color : #000000; background : green;  padding: 6px; border-radius: 10px;} QPushButton:pressed {background-color: rgb(0, 0, 224); border-style: inset;}");
+        ui->gridLayout_4->addWidget(_tabSbutton[i+6], 1, i, 1, 1);
         _nbButton++;
     }
-    for(int i=0;i<5;i++)
+    for(int i=0;i<3;i++)
     {
-        this->_tabSbutton[i+15]=new StatBoutton(_listValeur[i],3,this);
-        ui->gridLayout_5->addWidget(_tabSbutton[i+15], 1, i, 1, 1);
+        this->_tabSbutton[i+9]=new StatBoutton(_listValeur[i],3,this);
+        _tabSbutton[i+9]->setStyleSheet("QPushButton {color : #000000; background : yellow;  padding: 6px; border-radius: 10px;} QPushButton:pressed {background-color: rgb(0, 0, 224); border-style: inset;}");
+        ui->gridLayout_5->addWidget(_tabSbutton[i+9], 1, i, 1, 1);
         _nbButton++;
     }
 
@@ -131,7 +141,7 @@ void MainWindow::Creationbutton()
 
 void MainWindow::CreationSpinBox()
 {
-    int Maxval=7;
+    int Maxval=5;
  for(int i=0;i<Maxval;i++)
     {
         this->_tabSpinBox[i]=new StatSpinBox(0,i,this);
@@ -176,13 +186,14 @@ void MainWindow::Connection()
     connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(SlotEnvoi()));
     connect(ui->pushButton_2,SIGNAL(clicked()),this,SLOT(close()));
     connect(ui->pushButton_3,SIGNAL(clicked()),this,SLOT(SlotRaz()));
+    connect(ui->pushButton_4,SIGNAL(clicked()),this,SLOT(SlotFaute()));
 
 }
 
 void MainWindow::SlotEnvoi()
 {
     QString Message;
-     int Maxval=7;
+     int Maxval=5;
      int val;
 
     for(int i=0;i<4;i++)
@@ -197,14 +208,16 @@ void MainWindow::SlotEnvoi()
         Message=Message+"\n";
     }
 
+    Message=Message+"Nombre de faute advers "+QString::number(this->_nbFaute)+"\n";
 
-    /*AccountDetail * FenetreEnvoye=new AccountDetail();
+
+   AccountDetail * FenetreEnvoye=new AccountDetail();
 
     FenetreEnvoye->SetText(Message);
     if(FenetreEnvoye->exec()==true)
     {
 
-    }*/
+    }
 }
 
 void MainWindow::SlotTraitementClick(QString msgtrait)
@@ -220,22 +233,24 @@ void MainWindow::SlotTraitementClick(QString msgtrait)
     {
         this->_statmap[numaction]->add (0);
     }
-    else if(valeur=="+")
+   /* else if(valeur=="+")
+    {
+        this->_statmap[numaction]->add (1);
+    }*/
+    else if(valeur=="0")
     {
         this->_statmap[numaction]->add (1);
     }
-    else if(valeur=="0")
+   /* else if(valeur=="-")
+    {
+        this->_statmap[numaction]->add (3);
+    }*/
+    else if (valeur=="--")
     {
         this->_statmap[numaction]->add (2);
     }
-    else if(valeur=="-")
-    {
-        this->_statmap[numaction]->add (3);
-    }
-    else if (valeur=="--")
-    {
-        this->_statmap[numaction]->add (4);
-    }
+    QString Msgaction=this->_listAction[numaction]+"_"+valeur;
+    ui->lineEdit->setText(Msgaction);
     MajResultat();
 }
 
@@ -257,7 +272,7 @@ void MainWindow::SlotTraitementSpin(QString text)
 
 void MainWindow::MajResultat()
 {
-    int MaxVal=7;
+    int MaxVal=5;
     for(int act=0;act<4;act++)
     {
         for(int val=0;val<MaxVal;val++)
@@ -269,7 +284,7 @@ void MainWindow::MajResultat()
 
 void MainWindow::SlotRaz()
 {
-    int MaxVal=7;
+    int MaxVal=5;
     for(int act=0;act<4;act++)
     {
         for(int val=0;val<MaxVal;val++)
@@ -279,4 +294,15 @@ void MainWindow::SlotRaz()
 
         }
     }
+    _nbFaute=0;
+    ui->pushButton_4->setText("Fautes Adversaire");
+}
+
+void MainWindow::SlotFaute()
+{
+    _nbFaute++;
+    QString text;
+    text ="NB faute=";
+    text=text+QString::number(_nbFaute);
+    ui->pushButton_4->setText(text);
 }
