@@ -13,16 +13,16 @@ void StatValeur::add (int valeur)
         case 0:
             _vpp=_vpp+1;
         break;
-        case 1:
+       /* case 1:
             _vp=_vp+1;
-        break;
-        case 2:
+        break;*/
+        case 1:
             _v0=_v0+1;
         break;
-        case 3:
+      /* case 3:
             _vm=_vm+1;
-        break;
-        case 4:
+        break;*/
+        case 2:
             _vmm=_vmm+1;
         break;
         default:
@@ -47,22 +47,22 @@ double StatValeur::GetValeur(int valeur)
         case 0:
             return _vpp;
         break;
-        case 1:
+       /* case 1:
             return _vp;
-        break;
-        case 2:
+        break;*/
+        case 1:
             return _v0;
         break;
-        case 3:
+       /* case 3:
             return _vm;
-        break;
-        case 4:
+        break;*/
+        case 2:
             return _vmm;
         break;
-         case 5:
+         case 3:
             return _tot;
         break;
-         case 6:
+         case 4:
             return _eff;
         break;
         default:
@@ -78,22 +78,22 @@ void StatValeur::SetValeur (int valeur, double dbvaleur)
         case 0:
              _vpp=dbvaleur;
         break;
-        case 1:
+       /* case 1:
              _vp=dbvaleur;
-        break;
-        case 2:
+        break;*/
+        case 1:
              _v0=dbvaleur;
         break;
-        case 3:
+        /*case 3:
              _vm=dbvaleur;
-        break;
-        case 4:
+        break;*/
+        case 2:
              _vmm=dbvaleur;
         break;
-         case 5:
+         case 3:
              _tot=dbvaleur;
         break;
-         case 6:
+         case 4:
              _eff=dbvaleur;
         break;
         default:
